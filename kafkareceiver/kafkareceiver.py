@@ -3,8 +3,6 @@ import voeventparse as vp
 from voeventhandler.voeventhandler import VoeventHandler
 
 
-#this is used to access old voevents from the kafka stream
-#if deleted from the consumer it will only get incoming voevents in real time
 """
 connection for testing whith old voevents
 
@@ -44,11 +42,11 @@ subscribeSet = ['gcn.classic.voevent.AGILE_MCAL_ALERT',
                     ]
 
 # Subscribe to topics and receive alerts
-#consumer.subscribe(subscribeSet)
 consumer.subscribe(subscribeSet)
 
 #class used to perform action when a voevent is recived
 voeventhandle = VoeventHandler()
+
 print('kafka on')
 while True:
     for message in consumer.consume():
