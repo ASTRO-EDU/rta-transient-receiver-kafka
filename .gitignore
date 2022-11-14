@@ -3,4 +3,4 @@ actualconfig.json
 __pycache__
 build/
 venv/
-voeventhandler.egg-info/
+*.egg-info/
