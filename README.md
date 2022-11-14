@@ -1,1 +1,1 @@
-# rta-transient-receiver-kafka
+# rta-transient-receiver
