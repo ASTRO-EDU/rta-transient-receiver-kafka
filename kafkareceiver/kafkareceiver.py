@@ -3,20 +3,18 @@ import voeventparse as vp
 from voeventhandler.voeventhandler import VoeventHandler
 
 
+# create a special consumer for testing with old voevents
 """
-connection for testing whith old voevents
-
 config = {'group.id': '',
         'auto.offset.reset': 'earliest'}
 
 consumer = Consumer(config=config,
                     client_id='fill_here',
                     client_secret='fill_here')
-
 """
 
-consumer = Consumer(client_id='7927fv16jrd3bj146pkj71bgbk',
-                    client_secret='1ecn42rhp0eebp6nj5e2jrls4ma4tf390ela57rcnc25ov8v16vi',
+consumer = Consumer(client_id='fill_here',
+                    client_secret='fill_here',
                     domain='gcn.nasa.gov')
 
 
