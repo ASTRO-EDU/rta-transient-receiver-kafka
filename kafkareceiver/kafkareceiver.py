@@ -15,8 +15,8 @@ consumer = Consumer(config=config,
 
 """
 
-consumer = Consumer(client_id='fill_here',
-                    client_secret='fill_here',
+consumer = Consumer(client_id='7927fv16jrd3bj146pkj71bgbk',
+                    client_secret='1ecn42rhp0eebp6nj5e2jrls4ma4tf390ela57rcnc25ov8v16vi',
                     domain='gcn.nasa.gov')
 
 

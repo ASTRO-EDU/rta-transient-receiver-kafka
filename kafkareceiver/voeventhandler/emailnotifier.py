@@ -5,7 +5,7 @@ import json
 class EmailNotifier(object):
 
     def __init__(self):
-        f = open('voeventhandler/config/config.json')
+        f = open('kafkareceiver/voeventhandler/config/config.json')
         config = json.load(f)
         self.mail = Mail(config["sender_email"], config["sender_email_password"])
         self.to = config["email_recivers"]

@@ -12,7 +12,7 @@ class DatabaseInterface(object):
         Read database connection parameters from the config.json file.
         """
 
-        f = open('voeventhandler/config/config.json')
+        f = open('kafkareceiver/voeventhandler/config/config.json')
         config = json.load(f)
         db_user = config['Database_user']
         db_password = config['Database_password']
