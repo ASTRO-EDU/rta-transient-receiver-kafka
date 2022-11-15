@@ -1,6 +1,7 @@
 from gcn_kafka import Consumer
 import voeventparse as vp
 from voeventhandler.voeventhandler import VoeventHandler
+import json
 
 
 # create a special consumer for testing with old voevents
@@ -13,10 +14,20 @@ consumer = Consumer(config=config,
                     client_secret='fill_here')
 """
 
-consumer = Consumer(client_id='fill_here',
-                    client_secret='fill_here',
+# read credential from config file
+f = open('kafkareceiver/voeventhandler/config/config.json')
+config = json.load(f)
+client_id = config['client_id']
+client_secret = config['client_secret']
+
+# consumer creation
+consumer = Consumer(client_id=client_id,
+                    client_secret=client_secret,
                     domain='gcn.nasa.gov')
 
+# set of topics to subscribe
+# can be found the entire list during the client credentials creation at https://gcn.nasa.gov/quickstart
+# only for testing purpose, the topic 'gcn.classic.voevent.LVC_TEST' send a periodic voevent 
 
 subscribeSet = ['gcn.classic.voevent.AGILE_MCAL_ALERT',
                     'gcn.classic.voevent.AMON_ICECUBE_EHE',
@@ -33,6 +44,7 @@ subscribeSet = ['gcn.classic.voevent.AGILE_MCAL_ALERT',
                     'gcn.classic.voevent.LVC_INITIAL',
                     'gcn.classic.voevent.LVC_PRELIMINARY',
                     'gcn.classic.voevent.LVC_UPDATE',
+                    'gcn.classic.voevent.LVC_TEST',
                     'gcn.classic.voevent.MAXI_KNOWN',
                     'gcn.classic.voevent.MAXI_UNKNOWN',
                     'gcn.classic.voevent.SWIFT_BAT_QL_POS',
@@ -45,7 +57,7 @@ consumer.subscribe(subscribeSet)
 #class used to perform action when a voevent is recived
 voeventhandle = VoeventHandler()
 
-print('kafka on')
+print('Kafka receiver on')
 while True:
     for message in consumer.consume():
         value = message.value()

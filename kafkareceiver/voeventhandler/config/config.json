@@ -11,5 +11,9 @@
     "sender_email": "sender email address",
     "sender_email_password": "",
     "email_recivers" : ["receiver email here"],
-    "important_email_subject" : ["IMPORTAT : "]
+    "important_email_subject" : ["IMPORTAT : "],
+
+    "_section_3": "kafka cliens credentials",
+    "client_id":"fill_here",
+    "client_secret":"fill_here"
 }
