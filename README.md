@@ -43,4 +43,16 @@ Seing the displayed error: "Subscribed topic not available: *topic* : Broker: Un
 You can find more information at the link: https://gcn.nasa.gov/docs/faq#what-does-the-warning-subscribed-topic-not-available-gcnclassictextagile_grb_ground-broker-unknown-topic-or-partition-mean
 
 ## Important email
-The code provides a special function for establish if a voevent is important and sholud be marked in a special way during the email notification. You can find this function in the path voeventhandler/emailnotifier.py and it's name is is_important(). From deafault configuration this class return False, but you can build yuor own rule creating conditional operations usign the field of the voeventdata object.  For a fast look to what this field are look at the class voeventdata contained at path kafkareceiver/voeventhandler/emailnotifier.py.  The tag can be modified in the config file.
+The code provides a special function for establish if a voevent is important and sholud be marked in a special way during the email notification. You can find this function in the path voeventhandler/emailnotifier.py and it's name is is_important(). From deafault configuration this class return False, but you can build yuor own rule creating conditional operations usign the field of the voeventdata object.  For a fast look to what this field are look at the class voeventdata contained at path kafkareceiver/voeventhandler/emailnotifier.py.  The important email subject tag can be modified in the config file.
+
+## Databasem configuration
+For developing was used mysql 5.7.40 with the option ONLY_FULL_GROUP_BY deactivate. 
+Is important because this query can couse problems
+```
+SELECT ins.name, max(n.seqnum),n.noticetime, n.receivedsciencealertid, rsa.triggerid,rsa.ste,rsa.time as `trigger_time` from notice n join correlations c on (n.receivedsciencealertid = c.rsaId2) join receivedsciencealert rsa on ( rsa.receivedsciencealertid = n.receivedsciencealertid) join instrument ins on (ins.instrumentid = rsa.instrumentid) where c.rsaId1 = {voeventdata.receivedsciencealertid} group by n.receivedsciencealertid
+```
+
+If so use the query: 
+```
+SELECT ins.name, max(n.seqnum),n.noticetime, n.receivedsciencealertid, rsa.triggerid, rsa.ste, rsa.time as `trigger_time` from notice n, correlations c, receivedsciencealert rsa, instrument ins WHERE n.receivedsciencealertid = c.rsaId2 AND rsa.receivedsciencealertid = n.receivedsciencealertid AND ins.instrumentid = rsa.instrumentid AND c.rsaId1 = {voeventdata.receivedsciencealertid} GROUP BY n.receivedsciencealertid, ins.name, n.noticetime;
+```
