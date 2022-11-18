@@ -60,7 +60,7 @@ consumer.subscribe(subscribeSet)
 #class used to perform action when a voevent is recived
 voeventhandle = VoeventHandler()
 
-#create a file for logging
+#save a reference to the log file
 log_file = Path(__file__).parent / "log" / "log.txt"
 
 
