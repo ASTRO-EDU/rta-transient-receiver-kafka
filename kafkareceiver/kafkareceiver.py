@@ -60,6 +60,10 @@ consumer.subscribe(subscribeSet)
 #class used to perform action when a voevent is recived
 voeventhandle = VoeventHandler()
 
+#create a file for logging
+log_file = Path(__file__).parent / "log" / "log.txt"
+
+
 print('Kafka receiver on')
 while True:
     for message in consumer.consume():
@@ -68,5 +72,12 @@ while True:
             voeventhandle.printVoevent(vp.loads(value))
             voeventhandle.handleVoevent(vp.loads(value))
         except Exception as e:
+            error = 'Error: ' + str(e) + "\n"
+            message = 'Message: ' + str(value) + "\n"
+            f = open(log_file, "a")
+            f.write(error)
+            f.write(message)
+            f.write("----------------------- \n")
+            f.close()
             print(value)
             print(e)
