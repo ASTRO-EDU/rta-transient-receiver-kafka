@@ -16,7 +16,11 @@ For creating and install a new virtual enviroment: https://docs.python.org/3/lib
 Obtaining gcn nasa credential is really easy. You can use the link https://gcn.nasa.gov/quickstart for registration and gcn kafka client credential generation. 
 
 ### Steps for installation:
-First of all is important fill the config.json template with the required information. You can find this file in the path kafkareceiver/voeventhandler/config/config.json. 
+First of all is important fill the 2 config.json template with the required information. You can find this file in the path 
+```
+kafkareceiver/config/config.json (requires gcn kafka logins informations)
+rta-transient-receiver/voeventhandler/config/config.json (requires email and databases informations)
+```
 
 Then create a new virtual enviroment in a folder (for example) named venv whith the following command:
 ```
@@ -28,16 +32,16 @@ source venv/bin/activate
 ```
 Then install the dependency contained in the file requirements.txt in the new virtual enviroment.
 ```
-pip install -r requirements.txt
+pip install -r rta-transient-receiver/requirements.txt
 ```
-And use the following command for excecute the file setup.py
+And use the following command for excecute the file setup.py contained in the voeventhandler folder
 ```
-pip install .
+pip install rta-transient-receiver/
 ```
 ## Run code
 For run the code from the current folder use the command: 
 ```
-python kafkareceiver/kafkareceiver.py
+python3 kafkareceiver/kafkareceiver.py
 ```
 Seing the displayed error: "Subscribed topic not available: *topic* : Broker: Unknown topic or partition" is normal and is something related to the gcn kafka working. 
 You can find more information at the link: https://gcn.nasa.gov/docs/faq#what-does-the-warning-subscribed-topic-not-available-gcnclassictextagile_grb_ground-broker-unknown-topic-or-partition-mean

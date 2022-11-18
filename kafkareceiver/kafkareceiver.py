@@ -1,6 +1,7 @@
+from voeventhandler.voeventhandler import VoeventHandler
 from gcn_kafka import Consumer
 import voeventparse as vp
-from voeventhandler.voeventhandler import VoeventHandler
+from pathlib import Path
 import json
 
 
@@ -15,7 +16,9 @@ consumer = Consumer(config=config,
 """
 
 # read credential from config file
-f = open('kafkareceiver/voeventhandler/config/config.json')
+
+config_file = Path(__file__).parent / "config" / "config.json"        
+f = open(config_file)
 config = json.load(f)
 client_id = config['client_id']
 client_secret = config['client_secret']
