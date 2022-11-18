@@ -79,5 +79,5 @@ while True:
             f.write(message)
             f.write("----------------------- \n")
             f.close()
-            print(value)
-            print(e)
+            print(message)
+            print(error)
