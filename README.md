@@ -9,7 +9,7 @@ More information about how the incoming voevent is manipulated can be found in t
 ## Download
 This repo contain a submodule so, clone the repo then download the submodules
 ```
-git clone ssh@something
+git clone git@github.com:ASTRO-EDU/rta-transient-receiver-kafka.git
 git submodule update --init --recursive
 ```
 
