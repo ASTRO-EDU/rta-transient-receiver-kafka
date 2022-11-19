@@ -6,6 +6,13 @@ rta-transient-receiver-kafka is a simplified way for handling VoEvents notices p
 The program extract the data from the xml file, then writes the notices in a MySQL database and performs several processes for detecting a possible correlation among instruments. Then it sends an email alert to the team for further analysis. 
 More information about how the incoming voevent is manipulated can be found in the repo: https://github.com/ASTRO-EDU/rta-transient-receiver 
 
+## Download
+This repo contain a submodule so, clone the repo then download the submodules
+```
+git clone ssh@something
+git submodule update --init --recursive
+```
+
 ## Installation
 
 The dependencies are listed in the file requirement.txt. It is recommended to install them into a virtual enviromnent.
