@@ -1,0 +1,10 @@
+gcn_kafka==0.3.0
+astropy==5.0.1
+astropy-healpix==0.6
+voevent-parse==1.0.3
+numpy==1.22.3
+mysql-connector-python==8.0.29
+ligo-gracedb==2.7.7
+ligo-segments==1.4.0
+ligo.skymap==1.0.0
+requests==2.27.1
