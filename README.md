@@ -40,6 +40,7 @@ source venv/bin/activate
 Then install the dependency contained in the file requirements.txt in the new virtual enviroment.
 ```
 pip install -r rta-transient-receiver/requirements.txt
+pip install -r requirements.txt
 ```
 And use the following command for excecute the file setup.py contained in the voeventhandler folder
 ```
