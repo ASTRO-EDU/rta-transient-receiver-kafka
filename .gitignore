@@ -1,0 +1,6 @@
+todo.txt
+actualconfig.json
+__pycache__
+build/
+venv/
+*.egg-info/
