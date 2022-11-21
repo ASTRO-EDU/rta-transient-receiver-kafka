@@ -1,5 +1,3 @@
-# rta-transient-receiver-kafka
-
 ## Description
 
 rta-transient-receiver-kafka is a simplified way for handling VoEvents notices provided in xml format by gcn kafka. 
