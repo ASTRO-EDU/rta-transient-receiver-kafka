@@ -1,6 +1,12 @@
-todo.txt
-actualconfig.json
+# Files
+*.sigm
+singularity/dbpassword.txt
+singularity/kafkaclientsecret.txt
+
+# Folders
 __pycache__
+*.egg-info/
 build/
 venv/
-*.egg-info/
+*.simg
+*.log
