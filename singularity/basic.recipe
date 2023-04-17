@@ -1,0 +1,29 @@
+BootStrap: docker
+From: centos:7.3.1611
+
+%labels
+  author "andrea.bulgarelli@inaf.it, nicolo.parmiggiani@inaf.it, antonio.addis@inaf.it, simotrone@gmail.com"
+  version "0.10"
+
+%setup
+ #commands are executed on the host system outside of the container after the base OS has been installed
+
+ #copy here the file used to source environments
+
+%files
+ #to copy files from your host system into the container
+ #Each line is a pair of <source> and <destination>, where the source is a path on your host system, and the destination is a path in the container.
+ #Files are copied before any %post or installation procedures
+ #module/root_v5.34.24 /opt/module
+
+
+%post
+#install python3
+ yum -y install wget make gcc openssl-devel git bzip2-devel libffi-devel xz-devel sqlite-devel which
+ cd /usr/src
+ wget https://www.python.org/ftp/python/3.8.13/Python-3.8.13.tar.xz
+ tar -xvf Python-3.8.13.tar.xz
+ cd Python-3.8.13 
+ ./configure --prefix=/opt/python3
+ make altinstall
+ ln -s /opt/python3/bin/python3.8 /usr/bin/python3
