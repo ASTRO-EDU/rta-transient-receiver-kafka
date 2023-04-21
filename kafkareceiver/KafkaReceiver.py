@@ -34,7 +34,6 @@ def main():
 
     with open(args.log_file, "a") as f:
         f.write(f"{datetime.datetime.now()} Kafka receiver is starting.. \n")
-    print(f"{datetime.datetime.now()} Kafka receiver is starting.. \n")
 
     # consumer creation
     consumer = Consumer(
@@ -58,6 +57,8 @@ def main():
         'gcn.classic.voevent.INTEGRAL_WAKEUP',
         'gcn.classic.voevent.LVC_INITIAL',
         'gcn.classic.voevent.LVC_PRELIMINARY',
+        'gcn.classic.voevent.LVC_UPDATE',
+        'gcn.classic.voevent.LVC_TEST',
         'gcn.classic.voevent.MAXI_KNOWN',
         'gcn.classic.voevent.MAXI_UNKNOWN',
         'gcn.classic.voevent.SWIFT_BAT_QL_POS',
@@ -71,7 +72,6 @@ def main():
 
     with open(args.log_file, "a") as f:
         f.write(f"{datetime.datetime.now()} The following topics are not available: {notAvailable}\n")
-    print(f"{datetime.datetime.now()} The following topics are not available: {notAvailable}\n")
 
     # Subscribe to topics and receive alerts
     consumer.subscribe(subscribeSet)
@@ -80,8 +80,7 @@ def main():
     voeventhandle = VoeventHandler(args.voevent_handler_config_file)
 
     with open(args.log_file, "a") as f:
-        f.write(f"{datetime.datetime.now()} Kafka receiver is on \n")
-    print(f"{datetime.datetime.now()} Kafka receiver is on \n")
+        f.write(f"{datetime.datetime.now()} Kafka receiver is on! \n\n\n")
 
     while True:
 
@@ -89,16 +88,18 @@ def main():
         
             f = open(args.log_file, "a")
             try:
-                voeventdata = voeventhandle.handleVoevent(vp.loads(message.value()))
-                f.write(f"{datetime.datetime.now()} VoEvent: {voeventdata}") # use a logger!
-                print(f"{datetime.datetime.now()} VoEvent: {voeventdata}")
+                inserted, mail_sent, voeventdata, correlations = voeventhandle.handleVoevent(vp.loads(message.value()))
+                f.write(f"{datetime.datetime.now()} ------------------------------------------- \n") 
+                f.write(f"Voevent               = {voeventdata}\n") 
+                f.write(f"Saved in the database = {inserted}\n") 
+                f.write(f"Mail sent             = {bool(mail_sent)}\n") 
+
 
             except Exception as e:
                 f.write(f"{datetime.datetime.now()} Error: {e}")
-                print(f"{datetime.datetime.now()} Error: {e}")
 
             finally:
-                f.write("----------------------- \n\n")
+                f.write("------------------------------------------------------------------ \n\n")
                 f.close()
             
 
