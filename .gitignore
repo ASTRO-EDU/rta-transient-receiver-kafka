@@ -10,3 +10,6 @@ build/
 venv/
 *.simg
 *.log
+
+venv
+venv2

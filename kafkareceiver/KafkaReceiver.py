@@ -21,16 +21,15 @@ def removeNotAvailableTopics(subscribeSet, availableVoEventTopics):
 
 def main():
     parser = argparse.ArgumentParser(description='Kafka Receiver')
-    parser.add_argument('--kafka-config-file',           type=str, required=True, help='Kafka configuration file')
-    parser.add_argument('--voevent-handler-config-file', type=str, required=True, help='Voevent handler configuration file')
-    parser.add_argument('--log-file', type=str, required=True, help='Log file position')
+    parser.add_argument('--config-file', type=str, required=True, help='The configuration file')
+    parser.add_argument('--log-file', type=str, required=True, help='The path to the output log file')
     args = parser.parse_args()
 
     # read credential from config file
-    with open(args.kafka_config_file) as f:
+    with open(args.config_file) as f:
         config = json.load(f)
-        client_id = config['client_id']
-        client_secret = config['client_secret']
+        client_id = config['kafka_client_id']
+        client_secret = config['kafka_client_secret']
 
     with open(args.log_file, "a") as f:
         f.write(f"{datetime.datetime.now()} Kafka receiver is starting.. \n")
@@ -77,7 +76,7 @@ def main():
     consumer.subscribe(subscribeSet)
 
     # class used to perform action when a voevent is recived
-    voeventhandle = VoeventHandler(args.voevent_handler_config_file)
+    voeventhandle = VoeventHandler(args.config_file)
 
     with open(args.log_file, "a") as f:
         f.write(f"{datetime.datetime.now()} Kafka receiver is on! \n\n\n")
