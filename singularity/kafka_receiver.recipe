@@ -26,7 +26,7 @@ From: basic_layer_for_kafka_receiver.simg
     pip install -e .
 
 %startscript
-  echo "Writing in $HOME/test_args.log"  > $HOME/test_args.log
+  echo "Starting instance: `date`"
 
 %apprun kafka_receiver
 

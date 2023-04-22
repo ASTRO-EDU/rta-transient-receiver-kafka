@@ -39,8 +39,6 @@ To enter the container with a shell (for debugging purpose I guess):
 singularity shell instance://kafka_receiver
 ```
 
-If you want to specify the position of the log file outside the 
-
 
 ### Manual installation
 Check the dependecies of the `rta-transient-receiver` submodule. 
@@ -59,9 +57,9 @@ pip install -r requirements.txt
 pip install rta-transient-receiver/
 pip install .
 ```
-To run the code from the current folder use the command: 
+To run start the deamon use command: 
 ```
-kafkareceiver --config-file /path/to/config.json --log-file /path/to/kafka_receiver.log
+nohup kafkareceiver --config-file /path/to/config.json --log-file /path/to/kafka_receiver.log > /path/to/kafka_receiver_nohup.log 2>&1 &
 ```
 
 ## Configuration file
