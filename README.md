@@ -10,7 +10,7 @@ This program uses the following library as base layer: https://github.com/ASTRO-
 ## Installation
 
 ### Singularity container
-Singularity 2.6 has been used to create the containers. 
+[Singularity 2.6](https://docs.sylabs.io/guides/2.6/user-guide/quick_start.html) has been used to create the containers. 
 
 Download the containers:
 ```
