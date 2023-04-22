@@ -28,10 +28,19 @@ Two log files will be created:
 * the one passed as argument showing a quick summary of the received notices.
 * the `$HOME/kafka_receiver_nohup.log` file with more diagnostic informations.
 
+Singularity 2.6 will automatically bind the following directories: $HOME,/tmp,/proc,/sys,/dev; If you want to specify a different path for the log file you have to bind it during the start of the container service: 
+```
+singularity instance.start -B output/dir/for/kafka:/output kafka_receiver.simg kafka_receiver
+singularity run --app kafka_receiver instance://kafka_receiver $HOME/config.json /output/kafka_receiver.log
+```
+
 To enter the container with a shell (for debugging purpose I guess):
 ```
 singularity shell instance://kafka_receiver
 ```
+
+If you want to specify the position of the log file outside the 
+
 
 ### Manual installation
 Check the dependecies of the `rta-transient-receiver` submodule. 
