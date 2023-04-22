@@ -1,59 +1,77 @@
 ## Description
 
 rta-transient-receiver-kafka is a simplified way for handling VoEvents notices provided in xml format by gcn kafka. 
-The program extract the data from the xml file, then writes the notices in a MySQL database and performs several processes for detecting a possible correlation among instruments. Then it sends an email alert to the team for further analysis. 
-More information about how the incoming voevent is manipulated can be found in the repo: https://github.com/ASTRO-EDU/rta-transient-receiver 
 
-## Download
-This repo contain a submodule so, clone the repo then download the submodules
-```
-git clone --recurse-submodules git@github.com:ASTRO-EDU/rta-transient-receiver-kafka.git
-```
+This program extract the data from the xml file, then writes the notices in a MySQL database and performs several processes for detecting a possible correlation among instruments. Then it sends an email alert to the team for further analysis. 
+
+This program uses the following library as base layer: https://github.com/ASTRO-EDU/rta-transient-receiver 
+
 
 ## Installation
 
-The dependencies are listed in the file requirement.txt. It is recommended to install them into a virtual enviromnent.
+### Singularity container
+Singularity 2.6 has been used to create the containers. 
 
-For creating and install a new virtual enviroment: https://docs.python.org/3/library/venv.html
+Download the containers:
+```
+--> TODO
+```
+Start the container as a service:
+```
+singularity instance.start kafka_receiver.simg kafka_receiver
+```
+Start the application:
+```
+singularity run --app kafka_receiver instance://kafka_receiver $HOME/config.json $HOME/kafka_receiver.log
+```
+Two log files will be created: 
+* the one passed as argument showing a quick summary of the received notices.
+* the `$HOME/kafka_receiver_nohup.log` file with more diagnostic informations.
 
-### Obtaining gcn nasa credentials
-Obtaining gcn nasa credential is really easy. You can use the link https://gcn.nasa.gov/quickstart for registration and gcn kafka client credential generation. 
-
-### Steps for installation:
-First of all is important fill the 2 config.json template with the required information. You can find this file in the path 
+To enter the container with a shell (for debugging purpose I guess):
 ```
-kafkareceiver/config/config.json (requires gcn kafka logins informations)
-rta-transient-receiver/voeventhandler/config/config.json (requires email and databases informations)
+singularity shell instance://kafka_receiver
 ```
 
-Then create a new virtual enviroment in a folder (for example) named venv whith the following command:
+### Manual installation
+Check the dependecies of the `rta-transient-receiver` submodule. 
+
+Clone the repository:
 ```
-python3 -m venv venv
+git clone --recurse-submodules git@github.com:ASTRO-EDU/rta-transient-receiver-kafka.git
 ```
-Now activate the virtual enviroment whit the command:
+It is recommended to install the dependencies into a virtual enviromnent. For creating a  virtual enviroment: https://docs.python.org/3/library/venv.html
 ```
-source venv/bin/activate
-```
-Then install the dependency contained in the file requirements.txt in the new virtual enviroment.
-```
-pip install -r rta-transient-receiver/requirements.txt
+python3 -m venv kafka-env
+source kafka-env/bin/activate
+cd rta-transient-receiver-kafka
+pip install -r rta-transient-receiver/requirements.lock
 pip install -r requirements.txt
-```
-And use the following command for excecute the file setup.py contained in the voeventhandler folder
-```
 pip install rta-transient-receiver/
+pip install .
 ```
-## Run code
-For run the code from the current folder use the command: 
+To run the code from the current folder use the command: 
 ```
-python3 kafkareceiver/kafkareceiver.py
+kafkareceiver --config-file /path/to/config.json --log-file /path/to/kafka_receiver.log
 ```
-Seing the displayed error: "Subscribed topic not available: *topic* : Broker: Unknown topic or partition" is normal and is something related to the gcn kafka working. 
-You can find more information at the link: https://gcn.nasa.gov/docs/faq#what-does-the-warning-subscribed-topic-not-available-gcnclassictextagile_grb_ground-broker-unknown-topic-or-partition-mean
 
-## Important email
-The code provides a special function for establish if a voevent is important and sholud be marked in a special way during the email notification. You can find this function in the path voeventhandler/emailnotifier.py and it's name is is_important(). From deafault configuration this class return False, but you can build yuor own rule creating conditional operations usign the field of the voeventdata object.  For a fast look to what this field are look at the class voeventdata contained at path kafkareceiver/voeventhandler/emailnotifier.py.  The important email subject tag can be modified in the config file.
+## Configuration file
+A configuration file is mandatory to run the software. It contains the credentials to connect
+to the database and the Kafka topics, customize the behaviour of the email sender and decides how to handle the test notices. 
+The file `rta-transient-receiver/config.template.json` shows the required key-values pairs.
 
-## Exceptions during excecution
-If an exception occurre during excecution of the voevent handling the receiver won't stop running.
-For checkong if something went wrong during excecution is been created a file in the path kafkareceiver/log/log.txt. 
+### Obtaining gcn NASA credentials to connect to the Kafka topics
+You can use [this link](https://gcn.nasa.gov/quickstart) for registration and the kafka client credentials generation. 
+
+## Troubleshooting 
+* [Kafka producer FAQs](https://gcn.nasa.gov/docs/faq#what-does-the-warning-subscribed-topic-not-available-gcnclassictextagile_grb_ground-broker-unknown-topic-or-partition-mean)
+* Runtime exceptions: If an exception occurrs during the excecution the receiver won't stop running. To check if something went wrong in the output files. 
+
+## Build the Singularity images
+Singularity 2.6 has been used.
+
+Build the base layer then the second layer:
+```
+sudo singularity build basic_layer_for_kafka_receiver.simg basic_layer_for_kafka_receiver.recipe
+sudo singularity build kafka_receiver.simg kafka_receiver.recipe
+```
