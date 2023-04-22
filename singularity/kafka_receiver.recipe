@@ -1,0 +1,55 @@
+BootStrap: localimage
+From: basic_layer_for_kafka_receiver.simg
+
+%labels
+    author "leonardo.baroncelli@inaf.it, luca.babboni2@studio.unibo.it"
+    version "1.0.0"
+
+%post
+    # Enable gcc 8
+    source /opt/rh/devtoolset-8/enable
+    
+    # Create and activate virtual environment
+    python3 -m venv /opt/venv/kafka
+    source /opt/venv/kafka/bin/activate
+    /opt/venv/kafka/bin/python3 -m pip install --upgrade pip
+
+    # Installing kafka receiver
+    cd /opt && rm -rf rta-transient-receiver-kafka/  
+    git clone --recurse-submodules https://github.com/ASTRO-EDU/rta-transient-receiver-kafka.git
+    cd rta-transient-receiver-kafka
+    git checkout fix-for-ligo-run
+    git submodule update
+    pip install -r rta-transient-receiver/requirements.lock
+    pip install -r requirements.txt
+    pip install -e rta-transient-receiver/
+    pip install -e .
+
+%startscript
+  echo "Writing in $HOME/test_args.log"  > $HOME/test_args.log
+
+%apprun kafka_receiver
+
+    if [ -z "${2:-}" ]; then
+        echo "Usage: singularity run --app kafka_receiver <instance://name> <arg1> <arg2>"
+        echo "arg1: config file position"
+        echo "arg2: output file position (will be created)"
+        exit 1
+    fi
+    source /opt/venv/kafka/bin/activate && nohup kafkareceiver --config-file $1 --log-file $2 > $HOME/kafka_receiver_nohup.log 2>&1 &
+
+
+%help
+Build this recipe with:
+    > sudo singularity build kafka_receiver.simg kafka_receiver.recipe
+
+Start a service with:
+    > singularity instance.start kafka_receiver.simg kafka_receiver
+
+Start the application with:
+    > singularity run --app kafka_receiver kafka_receiver.simg <arg1> <arg2>
+        arg1: config file position
+        arg2: output folder
+
+Stop the service with:
+    > singularity instance.stop kafka_receiver
