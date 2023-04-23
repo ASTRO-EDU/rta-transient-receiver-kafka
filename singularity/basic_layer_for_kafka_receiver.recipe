@@ -1,0 +1,29 @@
+BootStrap: docker
+From: centos:7.3.1611
+
+%labels
+  author "leonardo.baroncelli@inaf.it"
+  version "1.0.0"
+
+%post
+  yum -y install wget make gcc openssl-devel git bzip2-devel libffi-devel gsl-devel xz-devel sqlite-devel which
+
+  yum install -y centos-release-scl
+  yum install -y devtoolset-8-gcc devtoolset-8-gcc-c++
+  source /opt/rh/devtoolset-8/enable 
+
+  cd /usr/src
+  wget https://www.python.org/ftp/python/3.9.0/Python-3.9.0.tar.xz
+  tar -xvf Python-3.9.0.tar.xz
+  cd Python-3.9.0
+  ./configure --prefix=/opt/python3
+  make altinstall
+  ln -s /opt/python3/bin/python3.9 /usr/bin/python3
+  /usr/bin/python3 -m pip install --upgrade pip
+
+%runscript
+  source /opt/rh/devtoolset-8/enable 
+
+%help
+Build this recipe with:
+    > sudo singularity build basic_layer_for_kafka_receiver.simg basic_layer_for_kafka_receiver.recipe
