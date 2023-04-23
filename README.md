@@ -67,8 +67,29 @@ A configuration file is mandatory to run the software. It contains the credentia
 to the database and the Kafka topics, customize the behaviour of the email sender and decides how to handle the test notices. 
 The file `rta-transient-receiver/config.template.json` shows the required key-values pairs.
 
-### Obtaining gcn NASA credentials to connect to the Kafka topics
-You can use [this link](https://gcn.nasa.gov/quickstart) for registration and the kafka client credentials generation. 
+* Section 1: Database
+    * `database_user`: the username to connect to the database.
+    * `database_password`: the password to connect to the database.
+    * `database_host`: the host of the database.
+    * `database_port`: the port of the database.
+    * `database_name`: the name of the database.
+    * `disable_test_notices_seconds`: the number of seconds to wait before processing the test notices.
+* Section 2: Email sender
+    * `enabled`: if true the email sender is enabled.
+    * `packet_with_email_notification`: if true the email sender is enabled for the packet with the given id.
+    * `skip_ligo_not_significant`: if true the email sender is disabled for the notices with the ligo significance not significant.
+    * `skip_ligo_test`: if true the email sender is disabled for the notices with the ligo test flag.
+    * `skip_ste`: if true the email sender is disabled for the notices with the ste flag.
+    * `sender_email`: the email address of the sender.    
+    * `sender_email_password`: the password of the sender email.  
+    * `email_receivers`: the list of the email receivers.
+    * `developer_email_receivers`: an email is sent to this list if any runtime exception occurs.
+* Section 3: Brokers
+    * You can use [this link](https://gcn.nasa.gov/quickstart) for registration and the kafka client credentials generation.
+    * `kafka_client_id`: the client id to connect to the Kafka topics.
+    * `kafka_client_secret`: the client secret to connect to the Kafka topics.
+    * `topics_to_subscribe`: the list of the topics to subscribe.
+ 
 
 ## Troubleshooting 
 * [Kafka producer FAQs](https://gcn.nasa.gov/docs/faq#what-does-the-warning-subscribed-topic-not-available-gcnclassictextagile_grb_ground-broker-unknown-topic-or-partition-mean)

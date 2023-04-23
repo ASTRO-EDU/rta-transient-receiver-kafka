@@ -41,28 +41,8 @@ def main():
                     domain='gcn.nasa.gov'
                 )
 
-    # set of topics to subscribe
-    # can be found the entire list during the client credentials creation at https://gcn.nasa.gov/quickstart
-    # only for testing purpose, the topic 'gcn.classic.voevent.LVC_TEST' send a periodic voevent 
-    subscribeSet = [    
-        'gcn.classic.voevent.AGILE_MCAL_ALERT',
-        'gcn.classic.voevent.FERMI_GBM_FLT_POS',
-        'gcn.classic.voevent.FERMI_LAT_MONITOR',
-        'gcn.classic.voevent.FERMI_LAT_OFFLINE',
-        'gcn.classic.voevent.ICECUBE_ASTROTRACK_BRONZE',
-        'gcn.classic.voevent.ICECUBE_ASTROTRACK_GOLD',
-        'gcn.classic.voevent.INTEGRAL_OFFLINE',
-        'gcn.classic.voevent.INTEGRAL_REFINED',
-        'gcn.classic.voevent.INTEGRAL_WAKEUP',
-        'gcn.classic.voevent.LVC_INITIAL',
-        'gcn.classic.voevent.LVC_PRELIMINARY',
-        'gcn.classic.voevent.LVC_UPDATE',
-        'gcn.classic.voevent.LVC_TEST',
-        'gcn.classic.voevent.MAXI_KNOWN',
-        'gcn.classic.voevent.MAXI_UNKNOWN',
-        'gcn.classic.voevent.SWIFT_BAT_QL_POS',
-        'gcn.classic.voevent.KONUS_LC'
-    ]
+
+    subscribeSet = config["topics_to_subscribe"]
 
     voEventAvailableTopics = sorted([topic for topic in consumer.list_topics().topics if "voevent" in topic])
 
@@ -88,7 +68,7 @@ def main():
             f = open(args.log_file, "a")
             try:
                 inserted, mail_sent, voeventdata, correlations = voeventhandle.handleVoevent(vp.loads(message.value()))
-                f.write(f"{datetime.datetime.now()} ------------------------------------------- \n") 
+                f.write(f"{datetime.datetime.now()} --------------------------------------------------------------------------------------------- \n") 
                 f.write(f"Voevent               = {voeventdata}\n") 
                 f.write(f"Saved in the database = {inserted}\n") 
                 f.write(f"Mail sent             = {bool(mail_sent)}\n") 
@@ -98,7 +78,7 @@ def main():
                 f.write(f"{datetime.datetime.now()} Error: {e}")
 
             finally:
-                f.write("------------------------------------------------------------------ \n\n")
+                f.write("---------------------------------------------------------------------- \n\n")
                 f.close()
             
 
