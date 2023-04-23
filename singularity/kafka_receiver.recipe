@@ -18,8 +18,6 @@ From: basic_layer_for_kafka_receiver.simg
     cd /opt && rm -rf rta-transient-receiver-kafka/  
     git clone --recurse-submodules https://github.com/ASTRO-EDU/rta-transient-receiver-kafka.git
     cd rta-transient-receiver-kafka
-    git checkout fix-for-ligo-run
-    git submodule update
     pip install -r rta-transient-receiver/requirements.lock
     pip install -r requirements.txt
     pip install -e rta-transient-receiver/
