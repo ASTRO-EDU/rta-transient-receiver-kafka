@@ -77,9 +77,8 @@ The file `rta-transient-receiver/config.template.json` shows the required key-va
 * Section 2: Email sender
     * `enabled`: if true the email sender is enabled.
     * `packet_with_email_notification`: if true the email sender is enabled for the packet with the given id.
-    * `skip_ligo_not_significant`: if true the email sender is disabled for the notices with the ligo significance not significant.
     * `skip_ligo_test`: if true the email sender is disabled for the notices with the ligo test flag.
-    * `skip_ste`: if true the email sender is disabled for the notices with the ste flag.
+    * `skip_ste`: if true the email sender is disabled for the notices with the sub-threshold flag (i.e. not-significant for LIGO).
     * `sender_email`: the email address of the sender.    
     * `sender_email_password`: the password of the sender email.  
     * `email_receivers`: the list of the email receivers.

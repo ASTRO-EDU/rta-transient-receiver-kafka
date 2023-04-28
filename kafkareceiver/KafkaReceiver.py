@@ -64,18 +64,16 @@ def main():
     while True:
 
         for message in consumer.consume():
-        
+            f.write(f"{datetime.datetime.now()} --------------------------------------------------------------------------------------------- \n")
             f = open(args.log_file, "a")
             try:
                 inserted, mail_sent, voeventdata, correlations = voeventhandle.handleVoevent(vp.loads(message.value()))
-                f.write(f"{datetime.datetime.now()} --------------------------------------------------------------------------------------------- \n") 
                 f.write(f"Voevent               = {voeventdata}\n") 
                 f.write(f"Saved in the database = {inserted}\n") 
                 f.write(f"Mail sent             = {bool(mail_sent)}\n") 
 
-
             except Exception as e:
-                f.write(f"{datetime.datetime.now()} Error: {e}")
+                f.write(f"{datetime.datetime.now()} Error: {e}\n\n{message.value()}")
 
             finally:
                 f.write("---------------------------------------------------------------------- \n\n")
