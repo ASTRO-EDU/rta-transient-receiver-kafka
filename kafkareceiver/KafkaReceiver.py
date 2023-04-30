@@ -64,8 +64,8 @@ def main():
     while True:
 
         for message in consumer.consume():
-            f.write(f"{datetime.datetime.now()} --------------------------------------------------------------------------------------------- \n")
             f = open(args.log_file, "a")
+            f.write(f"{datetime.datetime.now()} --------------------------------------------------------------------------------------------- \n")
             try:
                 inserted, mail_sent, voeventdata, correlations = voeventhandle.handleVoevent(vp.loads(message.value()))
                 f.write(f"Voevent               = {voeventdata}\n") 
