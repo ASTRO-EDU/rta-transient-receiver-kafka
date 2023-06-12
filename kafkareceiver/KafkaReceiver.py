@@ -4,6 +4,7 @@ import datetime
 from gcn_kafka import Consumer
 import voeventparse as vp
 from voeventhandler.voeventhandler import VoeventHandler
+import traceback
 
 def removeNotAvailableTopics(subscribeSet, availableVoEventTopics):
     notAvailableTopics = []
@@ -73,7 +74,8 @@ def main():
                 f.write(f"Mail sent             = {bool(mail_sent)}\n") 
 
             except Exception as e:
-                f.write(f"{datetime.datetime.now()} Error: {e}\n\n{message.value()}")
+                trace = traceback.format_exc()
+                f.write(f"{datetime.datetime.now()} Error: {e}\n\n {trace} \n\n{message.value()}")
 
             finally:
                 f.write("---------------------------------------------------------------------- \n\n")
