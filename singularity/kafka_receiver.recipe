@@ -34,7 +34,7 @@ From: basic_layer_for_kafka_receiver.simg
         echo "arg2: output file position (will be created)"
         exit 1
     fi
-    source /opt/venv/kafka/bin/activate && nohup kafkareceiver --config-file $1 --log-file $2 > $HOME/kafka_receiver_nohup.log 2>&1 &
+    source /opt/venv/kafka/bin/activate && nohup kafkareceiver --config-file $1 --log-file $2 > $HOME/kafka_receiver_nohup_$(date "+%Y.%m.%d-%H.%M.%S").log 2>&1 &
 
 
 %help
